@@ -105,9 +105,8 @@ void UKF::UpdateState(VectorXd* x_out, MatrixXd* P_out) {
      * Student part begin
      */
 
-    Tc.setZero();
-
     // calculate cross correlation matrix
+    Tc.setZero();
     for (size_t i = 0; i < weights.rows(); i++)
     {
         VectorXd xDiff = Xsig_pred.col(i) - x;

@@ -41,6 +41,8 @@ class UKF {
    */
   void UpdateRadar(MeasurementPackage meas_package);
 
+  // normalize the angle between [-pi, pi]
+  void normalizeAngle(double& angle) const;
 
   // initially set to false, set to true in first call of ProcessMeasurement
   bool is_initialized_;
