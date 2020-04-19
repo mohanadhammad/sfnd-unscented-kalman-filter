@@ -26,7 +26,7 @@ UKF::UKF()
     std_a_ = 2;
 
     // Process noise standard deviation yaw acceleration in rad/s^2
-    std_yawdd_ = 1;
+    std_yawdd_ = 5;
     
     /**
      * DO NOT MODIFY measurement noise values below.
@@ -110,7 +110,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
             // set the state with the initial location and zero velocity
             x_(0) = meas_package.raw_measurements_(0);
             x_(1) = meas_package.raw_measurements_(1);
-
+            P_(0, 0) = std_laspx_*std_laspx_;
+            P_(1, 1) = std_laspy_*std_laspy_;
             is_initialized_ = true;
         }
         else if (use_radar_ && meas_package.sensor_type_ == MeasurementPackage::RADAR)
@@ -154,12 +155,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
     {
         this->UpdateRadar(meas_package);
     }
-
-    assert(!std::isnan(x_(0)));
-    assert(!std::isnan(x_(1)));
-    assert(!std::isnan(x_(2)));
-    assert(!std::isnan(x_(3)));
-    assert(!std::isnan(x_(4)));
 
 //    std::cout << "x_ = \n" << x_ << "\n";
 //    std::cout << "P_ = \n" << P_ << "\n\n";
